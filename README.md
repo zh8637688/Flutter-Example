@@ -7,7 +7,7 @@ Flutter是Google推出的一款移动端跨平台UI开发框架。
 
 这些特性让Flutter能够更加流畅地运行在各个移动平台中。
 
-Flutter即将发布第一个Release版本，这里记录以下Flutter的学习过程及Flutter相关的资料。
+Flutter即将发布第一个Release版本，这里记录一下Flutter的学习过程及Flutter相关的资料。
 
 ### Flutter官网
 [https://flutter.io/](https://flutter.io/)
