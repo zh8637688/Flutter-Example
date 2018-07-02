@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter2048/widget/scoreTitle.dart';
 import 'package:flutter2048/widget/chessboard.dart';
 import 'package:flutter2048/logic/game.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Flutter2048 extends StatefulWidget {
   @override
@@ -21,6 +22,19 @@ class _Flutter2048State extends State<Flutter2048> {
       best = 0;
       chess = initChess();
     });
+    _getBestFromLocal();
+  }
+
+  _getBestFromLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      best = prefs.getInt('best') ?? 0;
+    });
+  }
+
+  _saveBestToLocal(int best) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('best', best);
   }
 
   @override
@@ -56,8 +70,14 @@ class _Flutter2048State extends State<Flutter2048> {
     } else {
       result = flingTo(this.chess, 1);
     }
+    int score = this.score + result['score'];
+    if (score > best) {
+      best = score;
+      _saveBestToLocal(best);
+    }
     setState(() {
-      this.score += result['score'];
+      this.score = score;
+      this.best = best;
       this.chess = result['chess'];
     });
   }
@@ -69,8 +89,14 @@ class _Flutter2048State extends State<Flutter2048> {
     } else {
       result = flingTo(this.chess, 3);
     }
+    int score = this.score + result['score'];
+    if (score > best) {
+      best = score;
+      _saveBestToLocal(best);
+    }
     setState(() {
-      this.score += result['score'];
+      this.score = score;
+      this.best = best;
       this.chess = result['chess'];
     });
   }
