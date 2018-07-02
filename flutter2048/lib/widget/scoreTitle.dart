@@ -1,29 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ScoreTitle extends StatefulWidget {
+class ScoreTitle extends StatelessWidget {
   final int score;
   final int best;
 
   ScoreTitle({
     Key key,
-    this.score = 0,
-    this.best = 0
+    @required this.score,
+    @required this.best
   }) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return new _ScoreTitleState(score, best);
-  }
-}
-
-class _ScoreTitleState extends State<ScoreTitle> {
-  int score;
-  int best;
-
-  _ScoreTitleState(int score, int best) {
-    this.score = score;
-    this.best = best;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +28,7 @@ class _ScoreTitleState extends State<ScoreTitle> {
   Widget _buildLogo() {
     return new Container(
       decoration: new BoxDecoration(
-          color: new Color(0xffe4c35a),
+          color: new Color(0xffecc140),
           borderRadius: new BorderRadius.all(new Radius.circular(5.0))
       ),
       width: 110.0,
@@ -94,7 +79,7 @@ class _ScoreTitleState extends State<ScoreTitle> {
   Widget _buildScore(String title, int score) {
     return new Container(
       decoration: new BoxDecoration(
-          color: new Color(0xffb7ada4),
+          color: new Color(0xffbbada3),
           borderRadius: new BorderRadius.all(new Radius.circular(5.0))
       ),
       width: 90.0,
