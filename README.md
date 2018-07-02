@@ -16,3 +16,8 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 [https://flutter-io.cn/](https://flutter-io.cn/)  
 [Flutter中文网](https://flutterchina.club/)  
 [Flutter中文开发者论坛](http://flutter-dev.cn/)
+
+<br />
+
+## [Flutter 2048](https://github.com/zh8637688/Flutter-Practise/tree/master/flutter2048/)
+<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/2048.png?raw=true" width = "360" height = "640" alt="Flutter 2048" align=center />  
