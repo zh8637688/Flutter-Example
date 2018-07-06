@@ -17,6 +17,10 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 [Flutter中文网](https://flutterchina.club/)  
 [Flutter中文开发者论坛](http://flutter-dev.cn/)
 
+### Flutter填坑
+* **Android应用启动白屏**  
+启动白屏现象在Android原生开发中就存在，在Flutter中这个问题更加明显，好在Flutter已经考虑过这个问题了，分析及方案参见[这里]()。
+
 <br />
 
 ## [Flutter 2048](https://github.com/zh8637688/Flutter-Practise/tree/master/flutter2048/)
