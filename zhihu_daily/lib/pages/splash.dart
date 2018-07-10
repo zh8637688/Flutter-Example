@@ -105,20 +105,19 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
   }
 
   _openHomePage(BuildContext context) {
-    Navigator.push(context,
+    Navigator.pushReplacement(context,
         new PageRouteBuilder(
             pageBuilder: (BuildContext context, _, __) {
               return new PageHome();
             },
             transitionsBuilder: (_, Animation<double> animation, __,
                 Widget child) {
-              return new FadeTransition(
-                opacity: animation,
-                child: new RotationTransition(
-                  turns: new Tween<double>(begin: 0.5, end: 1.0).animate(
-                      animation),
-                  child: child,
-                ),
+              return new SlideTransition(
+                  position: new Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: const Offset(0.0, 0.0),
+                  ).animate(animation),
+                  child: child
               );
             }
         )
