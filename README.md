@@ -18,7 +18,7 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 [Flutter中文开发者论坛](http://flutter-dev.cn/)
 
 ### Flutter填坑
-* **[Android应用启动白屏]()**  
+* **[Android应用启动白屏](https://juejin.im/post/5b443975f265da0f6825b56c)**  
 
 <br />
 
