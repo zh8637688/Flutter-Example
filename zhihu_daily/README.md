@@ -4,7 +4,7 @@ Flutter版知乎日报
 
 ## 页面截图
 
-### Splash
+### Splash 启动白屏优化对比
 <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/baiping.gif?raw=true" width = "180" height = "320" alt="启动白屏" align=center />  <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/baiping_opt.gif?raw=true" width = "180" height = "320" alt="启动白屏优化" align=center />   
 
 * 启动白屏
