@@ -13,6 +13,7 @@ class PageSplash extends StatefulWidget {
 class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
+  bool showLogoAnimation = false;
 
   @override
   void initState() {
@@ -22,6 +23,11 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
     animation = new Tween(begin: 84.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          showLogoAnimation = true;
+        }
       });
     controller.forward();
   }
@@ -71,13 +77,15 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
       width: 45.0,
       height: 45.0,
       margin: EdgeInsets.only(left: 25.5, right: 12.5),
-      child: new AnimatedLogo(callback: (status) {
-        if (status == AnimationStatus.completed) {
-          new Future.delayed(new Duration(milliseconds: 800), () {
-            _openHomePage(context);
-          });
-        }
-      }),
+      child: new AnimatedLogo(
+          showAnimation: showLogoAnimation,
+          callback: (status) {
+            if (status == AnimationStatus.completed) {
+              new Future.delayed(new Duration(milliseconds: 800), () {
+                _openHomePage(context);
+              });
+            }
+          }),
     );
   }
 

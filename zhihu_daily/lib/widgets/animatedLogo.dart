@@ -4,10 +4,12 @@ import 'dart:math';
 Color _color = const Color(0xffc2c5cc);
 
 class AnimatedLogo extends StatefulWidget {
+  final bool showAnimation;
   final AnimationStatusListener callback;
 
   AnimatedLogo({
     Key key,
+    this.showAnimation = false,
     this.callback
   }) : super(key: key);
 
@@ -34,7 +36,15 @@ class _LogoState extends State<AnimatedLogo>
         setState(() {});
       })
       ..addStatusListener(widget.callback);
-    controller.forward();
+  }
+
+
+  @override
+  void didUpdateWidget(AnimatedLogo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.showAnimation) {
+      controller.forward();
+    }
   }
 
   @override
