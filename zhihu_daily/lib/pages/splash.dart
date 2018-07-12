@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../pages/home.dart';
 import '../widgets/animatedLogo.dart';
 
@@ -14,13 +15,16 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
   bool showLogoAnimation = false;
+  bool showBackgroundImage = false;
 
   @override
   void initState() {
     super.initState();
     controller = new AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-    animation = new Tween(begin: 84.0, end: 0.0).animate(controller)
+    Animation curve = new CurvedAnimation(
+        parent: controller, curve: Curves.easeOut);
+    animation = new Tween(begin: 84.0, end: 0.0).animate(curve)
       ..addListener(() {
         setState(() {});
       })
@@ -34,15 +38,17 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      children: <Widget>[
-        new Expanded(child: _buildBackgroundImage()),
-        new Container(
-          height: 84.0,
-          color: new Color(0xff17181a),
-          child: _buildLogoAndSlogan(context),
+    return Container(
+        color: Color(0xff17181a),
+        child: Column(
+          children: <Widget>[
+            Expanded(child: _buildBackgroundImage()),
+            Container(
+              height: 84.0,
+              child: _buildLogoAndSlogan(context),
+            )
+          ],
         )
-      ],
     );
   }
 
@@ -53,11 +59,16 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildBackgroundImage() {
-    return Image.asset(
-      'res/images/splash.png',
-      fit: BoxFit.fill,
-      width: 360.0,
-    );
+    if (showBackgroundImage) {
+      return FadeInImage(
+          width: 360.0,
+          placeholder: MemoryImage(kTransparentImage),
+          image: AssetImage('res/images/splash.png'),
+          fit: BoxFit.fill,
+          fadeInDuration: Duration(milliseconds: 400));
+    } else {
+      return Container();
+    }
   }
 
   Widget _buildLogoAndSlogan(BuildContext context) {
@@ -81,7 +92,10 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
           showAnimation: showLogoAnimation,
           callback: (status) {
             if (status == AnimationStatus.completed) {
-              new Future.delayed(new Duration(milliseconds: 800), () {
+              setState(() {
+                showBackgroundImage = true;
+              });
+              Future.delayed(Duration(milliseconds: 2400), () {
                 _openHomePage(context);
               });
             }
