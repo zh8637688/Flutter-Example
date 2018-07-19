@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../widgets/drawerHeader.dart';
+import 'package:http/http.dart';
+import 'package:zhihu_daily/widgets/drawer/homeDrawer.dart';
+import 'package:zhihu_daily/model/theme.dart';
+import 'package:zhihu_daily/constants/urls.dart';
 
 class PageHome extends StatefulWidget {
   @override
@@ -9,6 +13,20 @@ class PageHome extends StatefulWidget {
 }
 
 class _PageState extends State<PageHome> {
+  int activatedThemeId;
+  List<ThemeModel> themeList;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      activatedThemeId = 0;
+      themeList = [];
+    });
+
+    _loadThemeList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -19,14 +37,17 @@ class _PageState extends State<PageHome> {
   }
 
   Widget _buildDrawer() {
-    return new Drawer(
-      child: new ListView(
-          padding: EdgeInsets.only(),
-          children: <Widget>[
-            new UserDrawerHeader(),
-          ]
-      ),
-    );
+    return new HomeDrawer(activatedThemeId, themeList, (ThemeModel theme) {
+      if (theme == null) {
+        setState(() {
+          activatedThemeId = 0;
+        });
+      } else {
+        setState(() {
+          activatedThemeId = theme.id;
+        });
+      }
+    });
   }
 
   AppBar _buildAppBar() {
@@ -44,5 +65,16 @@ class _PageState extends State<PageHome> {
 
   _pressMoreBtn() {
 
+  }
+
+  _loadThemeList() async {
+    Response response = await get(Urls.THEME_LIST);
+    Map<String, dynamic> result = json.decode(response.body);
+    if (result['others'] != null) {
+      result['others'].forEach((item) {
+        themeList.add(ThemeModel.fromJson(item));
+      });
+      setState(() {});
+    }
   }
 }

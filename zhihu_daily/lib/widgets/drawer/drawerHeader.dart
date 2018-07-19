@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'circleImage.dart';
+import '../circleImage.dart';
 
 class UserDrawerHeader extends StatefulWidget {
   @override
@@ -62,32 +62,41 @@ class _HeaderState extends State<UserDrawerHeader> {
   }
 
   Widget _buildItemCollect() {
-    return _buildMenuItem('我的收藏', Icons.star);
+    return _buildMenuItem('我的收藏', Icons.star, () {
+
+    });
   }
 
   Widget _buildItemDownload() {
-    return _buildMenuItem('离线下载', Icons.file_download);
+    return _buildMenuItem('离线下载', Icons.file_download, () {
+
+    });
   }
 
-  Widget _buildMenuItem(String text, IconData icon) {
-    return Expanded(child: Container(
-        padding: EdgeInsets.only(left: 8.0),
-        child: Row(
-          children: <Widget>[
-            Container(
-                margin: EdgeInsets.only(right: 20.0),
-                child: Icon(icon, color: Colors.white, size: 17.0)
-            ),
-            Text(
-                text,
-                style: new TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+  Widget _buildMenuItem(String text, IconData icon, GestureTapCallback onTap) {
+    return Expanded(
+        child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.only(right: 20.0),
+                        child: Icon(icon, color: Colors.white, size: 17.0)
+                    ),
+                    Text(
+                        text,
+                        style: new TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )
+                    )
+                  ],
                 )
             )
-          ],
-        ))
+        )
     );
   }
 }
