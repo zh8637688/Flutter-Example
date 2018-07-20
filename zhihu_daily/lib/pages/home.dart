@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:zhihu_daily/widgets/drawer/homeDrawer.dart';
+import 'package:zhihu_daily/widgets/homeDrawer.dart';
 import 'package:zhihu_daily/model/theme.dart';
 import 'package:zhihu_daily/constants/urls.dart';
+import 'package:zhihu_daily/fragment/homeFragment.dart';
+import 'package:zhihu_daily/fragment/themeFragment.dart';
 
 class PageHome extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class PageHome extends StatefulWidget {
 
 class _PageState extends State<PageHome> {
   int activatedThemeId;
+  ThemeModel activatedTheme;
   List<ThemeModel> themeList;
 
   @override
@@ -29,10 +32,16 @@ class _PageState extends State<PageHome> {
 
   @override
   Widget build(BuildContext context) {
+    Widget body;
+    if (activatedThemeId == 0) {
+      body = HomeFragment();
+    } else {
+      body = ThemeFragment(activatedTheme);
+    }
     return new Scaffold(
       appBar: _buildAppBar(),
       drawer: _buildDrawer(),
-      body: new Container(),
+      body: body,
     );
   }
 
@@ -41,10 +50,12 @@ class _PageState extends State<PageHome> {
       if (theme == null) {
         setState(() {
           activatedThemeId = 0;
+          activatedTheme = null;
         });
       } else {
         setState(() {
           activatedThemeId = theme.id;
+          activatedTheme = theme;
         });
       }
     });
