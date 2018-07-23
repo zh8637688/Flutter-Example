@@ -22,5 +22,8 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 
 <br />
 
+## [知乎日报]()
+<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-splash.gif?raw=true" width = "180" height = "320" alt="Splash" align=center />  <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-drawer.png?raw=true" width = "180" height = "320" alt="Drawer" align=center />  <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-home.png?raw=true" width = "180" height = "320" alt="Home" align=center />
+
 ## [Flutter 2048](https://github.com/zh8637688/Flutter-Practise/tree/master/flutter2048/)
-<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/2048.png?raw=true" width = "360" height = "640" alt="Flutter 2048" align=center />  
+<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/2048.png?raw=true" width = "270" height = "480" alt="Flutter 2048" align=center />  
