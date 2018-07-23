@@ -1,6 +1,7 @@
 class Urls {
-  static const String HOST = 'https://news-at.zhihu.com/api/4';
+  static const String _HOST = 'https://news-at.zhihu.com/api/4';
 
-  static const String THEME_LIST = HOST + '/themes';
-  static const String NEWS_LAST = HOST + '/news/latest';
+  static const String THEME_LIST = _HOST + '/themes';
+  static const String NEWS_LAST = _HOST + '/news/latest';
+  static const String NEWS_BEFORE = _HOST + '/news/before/';
 }

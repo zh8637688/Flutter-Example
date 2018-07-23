@@ -30,7 +30,9 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          showLogoAnimation = true;
+          setState(() {
+            showLogoAnimation = true;
+          });
         }
       });
     controller.forward();
