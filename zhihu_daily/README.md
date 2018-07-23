@@ -13,12 +13,12 @@ Flutter版知乎日报
 * 页面导航，[Navigator](https://docs.flutter.io/flutter/widgets/Navigator-class.html)
 
 ### Drawer
-<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-drawer.png?raw=true" width = "180" height = "320" alt="启动白屏" align=center />
+<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-drawer.png?raw=true" width = "180" height = "320" alt="Drawer" align=center />
 
 * [Drawer](https://docs.flutter.io/flutter/material/Drawer-class.html)
 
 ### 首页
-<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-home.png?raw=true" width = "180" height = "320" alt="启动白屏" align=center />
+<img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-home.png?raw=true" width = "180" height = "320" alt="首页" align=center />
 
 * Banner焦点图，[PageView](https://docs.flutter.io/flutter/widgets/PageView-class.html)，[实例](https://github.com/zh8637688/Flutter-Practise/blob/master/zhihu_daily/lib/widgets/homeBanner.dart) 
   - 循环播放，两种方法：1，itemCount最大值；2.首尾各增加一个虚拟item占位
