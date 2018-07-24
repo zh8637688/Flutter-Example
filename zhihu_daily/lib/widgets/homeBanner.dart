@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:zhihu_daily/model/story.dart';
+import 'package:zhihu_daily/utils/webUtil.dart';
+import 'package:zhihu_daily/constants/urls.dart';
 
 class HomeBanner extends StatefulWidget {
   final List<StoryModel> bannerStories;
@@ -58,16 +60,12 @@ class _BannerState extends State<HomeBanner> {
     List<Widget> items = [];
     if (widget.bannerStories.length > 0) {
       // 头部添加一个尾部Item，模拟循环
-      items.add(_buildItem(widget.bannerStories[widget.bannerStories.length - 1]));
+      items.add(
+          _buildItem(widget.bannerStories[widget.bannerStories.length - 1]));
       // 正常添加Item
-      items.addAll(widget.bannerStories.map((story) =>
-          Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Image.network(story.image, fit: BoxFit.cover),
-              _buildItemTitle(story.title),
-            ],)
-      ).toList(growable: false));
+      items.addAll(
+          widget.bannerStories.map((story) => _buildItem(story)).toList(
+              growable: false));
       // 尾部
       items.add(
           _buildItem(widget.bannerStories[0]));
@@ -76,12 +74,17 @@ class _BannerState extends State<HomeBanner> {
   }
 
   Widget _buildItem(StoryModel story) {
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Image.network(story.image, fit: BoxFit.cover),
-        _buildItemTitle(story.title),
-      ],);
+    return GestureDetector(
+      onTap: () {
+        openWebView(context, Urls.NEWS_DETAIL_WEB + story.id.toString(),
+            title: story.title);
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image.network(story.image, fit: BoxFit.cover),
+          _buildItemTitle(story.title),
+        ],),);
   }
 
   Widget _buildItemTitle(String title) {

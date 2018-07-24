@@ -7,6 +7,7 @@ import 'package:zhihu_daily/model/story.dart';
 import 'package:zhihu_daily/constants/urls.dart';
 import 'package:zhihu_daily/widgets/homeBanner.dart';
 import 'package:zhihu_daily/utils/timeUtil.dart';
+import 'package:zhihu_daily/utils/webUtil.dart';
 import 'package:zhihu_daily/widgets/loadMoreFooter.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -109,19 +110,26 @@ class _FragmentState extends State<HomeFragment> {
   Widget _buildStoryItem(StoryModel story) {
     return Container(
       padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
-      child: Card(
-        child: Container(
-          padding: EdgeInsets.all(10.0),
-          child: Row(children: <Widget>[
-            Expanded(child: Text(story.title,
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500))),
-            Container(
-              width: 80.0,
-              height: 80.0,
-              margin: EdgeInsets.only(left: 10.0),
-              child: Image.network(story.image),
-            )
-          ],),
+      child: GestureDetector(
+        onTap: () {
+          openWebView(context, Urls.NEWS_DETAIL_WEB + story.id.toString(),
+              title: story.title);
+        },
+        child: Card(
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: Row(children: <Widget>[
+              Expanded(child: Text(story.title,
+                  style: TextStyle(
+                      fontSize: 18.0, fontWeight: FontWeight.w500))),
+              Container(
+                width: 80.0,
+                height: 80.0,
+                margin: EdgeInsets.only(left: 10.0),
+                child: Image.network(story.image),
+              )
+            ]),
+          ),
         ),
       ),
     );
