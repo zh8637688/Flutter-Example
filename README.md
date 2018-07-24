@@ -1,4 +1,4 @@
-# Flutter-Practise
+# Flutter-Example
 Flutter是Google推出的一款移动端跨平台UI开发框架。  
 
 不同于React-Native、Weex等跨平台框架，Flutter具有以下的特性：
