@@ -23,6 +23,7 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 
 ### Flutter填坑
 * **[Android应用启动白屏](https://juejin.im/post/5b443975f265da0f6825b56c)**  
+* **Flutter 中关于 WebView 的[讨论](https://github.com/flutter/flutter/issues/730)**，目前还不支持，持续关注
 
 <br />
 
