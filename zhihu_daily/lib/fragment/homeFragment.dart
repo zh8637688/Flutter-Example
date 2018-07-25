@@ -45,7 +45,7 @@ class _FragmentState extends State<HomeFragment> {
       body = Center(child: CircularProgressIndicator());
     } else {
       body = RefreshIndicator(
-        onRefresh: _onRefresh,
+        onRefresh: _refreshData,
         child: ListView(
           physics: AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.only(),
@@ -55,13 +55,6 @@ class _FragmentState extends State<HomeFragment> {
       );
     }
     return body;
-  }
-
-  Future<Null> _onRefresh() async {
-    Completer<Null> completer = new Completer<Null>();
-    await _refreshData();
-    completer.complete(null);
-    return completer.future;
   }
 
   _onScroll() async {
@@ -146,7 +139,7 @@ class _FragmentState extends State<HomeFragment> {
     _refreshData();
   }
 
-  _refreshData() async {
+  Future<Null> _refreshData() async {
     String url = Urls.NEWS_LAST;
     try {
       Response response = await get(url);
