@@ -30,3 +30,9 @@ Flutter版知乎日报
 <img src="https://github.com/zh8637688/Flutter-Example/blob/master/screenshot/zhihu-detail.png?raw=true" width = "180" height = "320" alt="detail" align=center />
 
 * WebView，Flutter官方并没有对 WebView 提供支持，所以 WebView 使用的第三方插件[flutter_webview_plugin](https://pub.dartlang.org/packages/flutter_webview_plugin#-example-tab-)。**该插件是基于原生 WebView 进行开发，所以无法与 Flutter 的控件进行整合，只能在新页面中使用。**
+
+### 夜间模式
+<img src="https://github.com/zh8637688/Flutter-Example/blob/master/screenshot/zhihu-menu.png?raw=true" width = "180" height = "320" alt="menu" align=center />  <img src="https://github.com/zh8637688/Flutter-Example/blob/master/screenshot/zhihu-dark.png?raw=true" width = "180" height = "320" alt="dark" align=center />
+
+* showDialog，自定义 Dialog
+* 通过配置 Theme 实现换肤效果，[链接](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)
