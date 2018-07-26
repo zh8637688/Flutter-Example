@@ -6,6 +6,7 @@ import 'package:zhihu_daily/model/theme.dart';
 import 'package:zhihu_daily/constants/urls.dart';
 import 'package:zhihu_daily/fragment/homeFragment.dart';
 import 'package:zhihu_daily/fragment/themeFragment.dart';
+import 'package:zhihu_daily/dialog/moreMenuDialog.dart';
 
 class PageHome extends StatefulWidget {
   @override
@@ -75,7 +76,7 @@ class _PageState extends State<PageHome> {
   }
 
   _pressMoreBtn() {
-
+    showDialog(context: context, builder: (context) => MoreMenuDialog());
   }
 
   _loadThemeList() async {
