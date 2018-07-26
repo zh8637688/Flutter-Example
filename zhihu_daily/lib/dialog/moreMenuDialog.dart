@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zhihu_daily/manager/skinManager.dart';
 
 class MoreMenuDialog extends StatefulWidget {
   @override
@@ -8,6 +9,8 @@ class MoreMenuDialog extends StatefulWidget {
 }
 
 class _DialogState extends State<MoreMenuDialog> {
+  SkinManager skinManager = SkinManager();
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -25,8 +28,17 @@ class _DialogState extends State<MoreMenuDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildMenuItem('夜间模式', () {}),
-        _buildMenuItem('设置选项', () {})
+        _buildMenuItem(
+          skinManager.brightness == Brightness.light ? '夜间模式' : '日间模式', () {
+          skinManager.setBrightness(context,
+              skinManager.brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light);
+          Navigator.of(context).pop();
+        },),
+        _buildMenuItem('设置选项', () {
+          Navigator.of(context).pop();
+        })
       ],
     );
   }
