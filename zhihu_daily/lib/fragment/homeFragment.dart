@@ -7,8 +7,8 @@ import 'package:zhihu_daily/model/story.dart';
 import 'package:zhihu_daily/constants/urls.dart';
 import 'package:zhihu_daily/widgets/homeBanner.dart';
 import 'package:zhihu_daily/utils/timeUtil.dart';
-import 'package:zhihu_daily/utils/webUtil.dart';
 import 'package:zhihu_daily/widgets/loadMoreFooter.dart';
+import 'package:zhihu_daily/pages/storyDetail.dart';
 
 class HomeFragment extends StatefulWidget {
 
@@ -70,7 +70,9 @@ class _FragmentState extends State<HomeFragment> {
   List<Widget> _buildHomeList(BuildContext context) {
     List<Widget> list = [];
     if (bannerStories.length > 0) {
-      list.add(HomeBanner(bannerStories));
+      list.add(HomeBanner(bannerStories, (story) {
+        _openStoryDetailPage(story);
+      }));
     }
     if (storiesOfDate.length > 0) {
       storiesOfDate.forEach((date, storiesList) {
@@ -105,8 +107,7 @@ class _FragmentState extends State<HomeFragment> {
       padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
       child: GestureDetector(
         onTap: () {
-          openWebView(context, Urls.NEWS_DETAIL_WEB + story.id.toString(),
-              title: story.title);
+          _openStoryDetailPage(story);
         },
         child: Card(
           child: Container(
@@ -203,5 +204,23 @@ class _FragmentState extends State<HomeFragment> {
     setState(() {
       isLoadingMore = show;
     });
+  }
+
+  _openStoryDetailPage(StoryModel story) {
+    Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) {
+        return PageStoryDetail(story);
+      },
+      transitionsBuilder: (_, Animation<double> animation, __,
+          Widget child) {
+        return new SlideTransition(
+            position: new Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: const Offset(0.0, 0.0),
+            ).animate(animation),
+            child: child
+        );
+      },
+    ));
   }
 }

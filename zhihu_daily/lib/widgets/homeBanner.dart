@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:zhihu_daily/model/story.dart';
-import 'package:zhihu_daily/utils/webUtil.dart';
-import 'package:zhihu_daily/constants/urls.dart';
 
 class HomeBanner extends StatefulWidget {
   final List<StoryModel> bannerStories;
+  final OnTapBannerItem onTap;
 
-  HomeBanner(this.bannerStories, {Key key})
+  HomeBanner(this.bannerStories, this.onTap, {Key key})
       :super(key: key);
 
   @override
@@ -76,8 +75,7 @@ class _BannerState extends State<HomeBanner> {
   Widget _buildItem(StoryModel story) {
     return GestureDetector(
       onTap: () {
-        openWebView(context, Urls.NEWS_DETAIL_WEB + story.id.toString(),
-            title: story.title);
+        widget.onTap != null && widget.onTap(story);
       },
       child: Stack(
         fit: StackFit.expand,
@@ -135,3 +133,5 @@ class _BannerState extends State<HomeBanner> {
     setState(() {});
   }
 }
+
+typedef void OnTapBannerItem(StoryModel story);
