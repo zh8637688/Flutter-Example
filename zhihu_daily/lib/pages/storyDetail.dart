@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:zhihu_daily/model/story.dart';
 import 'package:zhihu_daily/constants/urls.dart';
+import 'package:zhihu_daily/constants/pages.dart';
 
 class PageStoryDetail extends StatefulWidget {
   final int storyID;
 
   PageStoryDetail(this.storyID);
+
+  PageStoryDetail.fromParams(Map<String, String> params)
+      : this(int.parse(params['storyID']));
 
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +21,8 @@ class PageStoryDetail extends StatefulWidget {
 
 class _PageState extends State<PageStoryDetail> {
   int commentCount;
+  int longComments;
+  int shortComments;
   int starCount;
   String storyUrl;
   int storyID;
@@ -77,7 +82,14 @@ class _PageState extends State<PageStoryDetail> {
   }
 
   _onPressComment() {
-
+    StringBuffer sb = StringBuffer(Pages.COMMENT);
+    sb.write('?storyID=');
+    sb.write(storyID);
+    sb.write('&longComments=');
+    sb.write(longComments);
+    sb.write('&shortComments=');
+    sb.write(shortComments);
+    Navigator.of(context).pushNamed(sb.toString());
   }
 
   _onPressThumb() {
@@ -91,6 +103,8 @@ class _PageState extends State<PageStoryDetail> {
       Map<String, dynamic> result = json.decode(response.body);
       setState(() {
         commentCount = result['comments'];
+        longComments = result['long_comments'];
+        shortComments = result['long_comments'];
         starCount = result['popularity'];
       });
     }

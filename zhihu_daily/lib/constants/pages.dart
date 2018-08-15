@@ -3,6 +3,7 @@ import 'package:zhihu_daily/utils/routeUtil.dart';
 import 'package:zhihu_daily/pages/splash.dart';
 import 'package:zhihu_daily/pages/home.dart';
 import 'package:zhihu_daily/pages/storyDetail.dart';
+import 'package:zhihu_daily/pages/comment.dart';
 
 class Pages {
   static const String SPLASH = '/splash';
@@ -13,8 +14,8 @@ class Pages {
   static Map<String, PageBuilder> routes = {
     SPLASH: (context, params) => PageSplash(),
     HOME: (context, params) => PageHome(),
-    STORY_DETAIL: (context, params) =>
-        PageStoryDetail(int.parse(params['storyID']))
+    STORY_DETAIL: (context, params) => PageStoryDetail.fromParams(params),
+    COMMENT: (context, params) => PageStoryComment.fromParams(params)
   };
 
   static Widget firstPage(BuildContext context) {
