@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import '../pages/home.dart';
+import 'package:zhihu_daily/constants/pages.dart';
 import '../widgets/animatedLogo.dart';
 
 class PageSplash extends StatefulWidget {
@@ -129,22 +129,6 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
   }
 
   _openHomePage(BuildContext context) {
-    Navigator.pushReplacement(context,
-        new PageRouteBuilder(
-            pageBuilder: (BuildContext context, _, __) {
-              return new PageHome();
-            },
-            transitionsBuilder: (_, Animation<double> animation, __,
-                Widget child) {
-              return new SlideTransition(
-                  position: new Tween<Offset>(
-                    begin: const Offset(1.0, 0.0),
-                    end: const Offset(0.0, 0.0),
-                  ).animate(animation),
-                  child: child
-              );
-            }
-        )
-    );
+    Navigator.pushReplacementNamed(context, Pages.HOME);
   }
 }

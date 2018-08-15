@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'constants/pages.dart';
-import 'pages/splash.dart';
-import 'pages/home.dart';
 import 'package:zhihu_daily/manager/skinManager.dart';
+import 'package:zhihu_daily/utils/routeUtil.dart';
 
 void main() {
+  RouteUtil route = RouteUtil(
+      routes: Pages.routes
+  );
   runApp(SkinManager().wrap(
     themeBuilder: (brightness) =>
         ThemeData(brightness: brightness),
@@ -12,12 +14,9 @@ void main() {
       return MaterialApp(
         theme: theme,
         home: Scaffold(
-          body: PageSplash(),
+          body: Pages.firstPage(context),
         ),
-        routes: <String, WidgetBuilder>{
-          Pages.splash: (BuildContext context) => PageSplash(),
-          Pages.home: (BuildContext context) => PageHome()
-        },
+        onGenerateRoute: route.onGenerateRoute
       );
     },
   ));

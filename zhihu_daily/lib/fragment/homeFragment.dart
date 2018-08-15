@@ -5,10 +5,10 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:zhihu_daily/model/story.dart';
 import 'package:zhihu_daily/constants/urls.dart';
+import 'package:zhihu_daily/constants/pages.dart';
 import 'package:zhihu_daily/widgets/homeBanner.dart';
 import 'package:zhihu_daily/utils/timeUtil.dart';
 import 'package:zhihu_daily/widgets/loadMoreFooter.dart';
-import 'package:zhihu_daily/pages/storyDetail.dart';
 
 class HomeFragment extends StatefulWidget {
 
@@ -207,20 +207,6 @@ class _FragmentState extends State<HomeFragment> {
   }
 
   _openStoryDetailPage(StoryModel story) {
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (BuildContext context, _, __) {
-        return PageStoryDetail(story);
-      },
-      transitionsBuilder: (_, Animation<double> animation, __,
-          Widget child) {
-        return new SlideTransition(
-            position: new Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
-              end: const Offset(0.0, 0.0),
-            ).animate(animation),
-            child: child
-        );
-      },
-    ));
+    Navigator.of(context).pushNamed(Pages.STORY_DETAIL + '?storyID=' + story.id.toString());
   }
 }

@@ -6,9 +6,9 @@ import 'package:zhihu_daily/model/story.dart';
 import 'package:zhihu_daily/constants/urls.dart';
 
 class PageStoryDetail extends StatefulWidget {
-  final StoryModel story;
+  final int storyID;
 
-  PageStoryDetail(this.story);
+  PageStoryDetail(this.storyID);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,15 +20,15 @@ class _PageState extends State<PageStoryDetail> {
   int commentCount;
   int starCount;
   String storyUrl;
-  StoryModel story;
+  int storyID;
 
   @override
   void initState() {
     super.initState();
     commentCount = 0;
     starCount = 0;
-    story = widget.story;
-    storyUrl = Urls.NEWS_DETAIL_WEB + story.id.toString();
+    storyID = widget.storyID;
+    storyUrl = Urls.NEWS_DETAIL_WEB + storyID.toString();
 
     _loadData();
   }
@@ -85,7 +85,7 @@ class _PageState extends State<PageStoryDetail> {
   }
 
   _loadData() async {
-    String url = Urls.NEWS_EXTRA_INFO + story.id.toString();
+    String url = Urls.NEWS_EXTRA_INFO + storyID.toString();
     Response response = await get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> result = json.decode(response.body);
