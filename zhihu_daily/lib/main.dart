@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'constants/pages.dart';
 import 'package:zhihu_daily/manager/skinManager.dart';
-import 'package:zhihu_daily/utils/routeUtil.dart';
+import 'package:zhihu_daily/route/routeGenerator.dart';
 
 void main() {
-  RouteUtil route = RouteUtil(
+  RouteGenerator route = RouteGenerator(
       routes: Pages.routes
   );
   runApp(SkinManager().wrap(

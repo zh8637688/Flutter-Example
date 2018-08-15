@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 
 typedef Widget PageBuilder(BuildContext context, Map<String, String> params);
 
-class RouteUtil {
+class RouteGenerator {
   final Map<String, PageBuilder> routes;
 
-  RouteUtil({this.routes});
+  RouteGenerator({this.routes});
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     String uri = settings.name;
@@ -14,21 +14,7 @@ class RouteUtil {
     Map<String, String> params = resolvedURI['params'];
     PageBuilder builder = routes[path];
     if (builder != null) {
-      return PageRouteBuilder(
-        pageBuilder: (BuildContext context, _, __) {
-          return builder(context, params);
-        },
-        transitionsBuilder: (_, Animation<double> animation, __,
-            Widget child) {
-          return new SlideTransition(
-              position: new Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: const Offset(0.0, 0.0),
-              ).animate(animation),
-              child: child
-          );
-        },
-      );
+      return _genSlideTransitionPageRoute(builder, params);
     }
     return null;
   }
@@ -41,12 +27,32 @@ class RouteUtil {
       params = Map();
       resoled[1].split('&').forEach((paramStr) {
         List<String> item = paramStr.split('=');
-        params.putIfAbsent(Uri.decodeComponent(item[0]), () => Uri.decodeComponent(item[1]));
+        params.putIfAbsent(
+            Uri.decodeComponent(item[0]), () => Uri.decodeComponent(item[1]));
       });
     }
     return {
       'path': path,
       'params': params
     };
+  }
+
+  PageRouteBuilder _genSlideTransitionPageRoute(PageBuilder builder,
+      Map<String, String> params) {
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) {
+        return builder(context, params);
+      },
+      transitionsBuilder: (_, Animation<double> animation, __,
+          Widget child) {
+        return new SlideTransition(
+            position: new Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: const Offset(0.0, 0.0),
+            ).animate(animation),
+            child: child
+        );
+      },
+    );
   }
 }

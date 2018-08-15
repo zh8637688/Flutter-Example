@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:zhihu_daily/utils/routeUtil.dart';
+import 'package:zhihu_daily/route/routeGenerator.dart';
 import 'package:zhihu_daily/pages/splash.dart';
 import 'package:zhihu_daily/pages/home.dart';
 import 'package:zhihu_daily/pages/storyDetail.dart';
