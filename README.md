@@ -23,7 +23,7 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 
 ### Flutter填坑
 * **[Android应用启动白屏](https://juejin.im/post/5b443975f265da0f6825b56c)**  
-* **Flutter 中关于 WebView 的[讨论](https://github.com/flutter/flutter/issues/730)**，目前 Flutter 自身还不支持 WebView，可通过[插件](https://pub.dartlang.org/packages/flutter_webview_plugin)使用 native 的。
+* **Flutter 中关于 WebView 的[讨论](https://github.com/flutter/flutter/issues/730)**，目前 Flutter 自身还不支持 WebView，可通过[插件](https://pub.dartlang.org/packages/flutter_webview_plugin)使用 native 的 WebView。（native webview 会覆盖在 flutter 渲染层之上，导致后续打开的页面被遮挡）
 
 <br />
 
