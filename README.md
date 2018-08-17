@@ -32,11 +32,11 @@ Flutter即将发布第一个Release版本，这里记录一下Flutter的学习�
 
 <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/zhihu-drawer.png?raw=true" width = "180" height = "320" alt="Drawer" align=center />  <img src="https://github.com/zh8637688/Flutter-Example/blob/master/screenshot/zhihu-menu.png?raw=true" width = "180" height = "320" alt="menu" align=center />  <img src="https://github.com/zh8637688/Flutter-Example/blob/master/screenshot/zhihu-dark.png?raw=true" width = "180" height = "320" alt="dark" align=center />
 
-### Future:
-#### Route:
-* 支持设置统一的页面跳转动画；
-* 支持带参数的命名路由，``Navigator.of(context).pushNamed(pagePath + '?key=value')``；
-* 支持路由拦截，``RouteInterceptor``；
+### Future
+* Route
+  * 支持设置统一的页面跳转动画；
+  * 支持带参数的命名路由，``Navigator.of(context).pushNamed(pagePath + '?key=value')``；
+  * 支持路由拦截，``RouteInterceptor``；
 
 ## [Flutter 2048](https://github.com/zh8637688/Flutter-Practise/tree/master/flutter2048/)
 <img src="https://github.com/zh8637688/Flutter-Practise/blob/master/screenshot/2048.png?raw=true" width = "270" height = "480" alt="Flutter 2048" align=center />  
