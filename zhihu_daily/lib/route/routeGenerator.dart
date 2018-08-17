@@ -1,40 +1,48 @@
 import 'package:flutter/widgets.dart';
+import 'package:zhihu_daily/route/routeInterceptor.dart';
+import 'package:zhihu_daily/route/routeModel.dart';
 
 typedef Widget PageBuilder(BuildContext context, Map<String, String> params);
 
 class RouteGenerator {
   final Map<String, PageBuilder> routes;
+  List<RouteInterceptor> interceptors;
 
   RouteGenerator({this.routes});
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     String uri = settings.name;
-    Map<String, dynamic> resolvedURI = _resolveURI(uri);
-    String path = resolvedURI['path'];
-    Map<String, String> params = resolvedURI['params'];
-    PageBuilder builder = routes[path];
+    RouteModel routeModel = RouteModel(uri);
+
+    if (interceptors != null) {
+      for(RouteInterceptor interceptor in interceptors) {
+        if(interceptor.intercept(routeModel)) {
+          routeModel = interceptor.process(routeModel);
+          break;
+        }
+      }
+    }
+    PageBuilder builder = routes[routeModel.path];
     if (builder != null) {
-      return _genSlideTransitionPageRoute(builder, params);
+      return _genSlideTransitionPageRoute(builder, routeModel.params);
     }
     return null;
   }
 
-  Map<String, dynamic> _resolveURI(String uri) {
-    List<String> resoled = uri.split('?');
-    String path = resoled[0];
-    Map<String, String> params;
-    if (resoled.length > 1) {
-      params = Map();
-      resoled[1].split('&').forEach((paramStr) {
-        List<String> item = paramStr.split('=');
-        params.putIfAbsent(
-            Uri.decodeComponent(item[0]), () => Uri.decodeComponent(item[1]));
-      });
+  void addInterceptor(RouteInterceptor interceptor) {
+    if (interceptors == null) {
+      interceptors = [];
     }
-    return {
-      'path': path,
-      'params': params
-    };
+
+    if (interceptor != null) {
+      interceptors.add(interceptor);
+    }
+  }
+
+  void removeInterceptor(RouteInterceptor interceptor) {
+    if (interceptors != null) {
+      interceptors.remove(interceptor);
+    }
   }
 
   PageRouteBuilder _genSlideTransitionPageRoute(PageBuilder builder,
