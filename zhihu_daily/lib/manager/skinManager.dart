@@ -9,6 +9,7 @@ typedef ThemeData ThemeDataWithBrightnessBuilder(Brightness brightness);
 
 class SkinManager {
   static SkinManager _instance;
+  bool _loaded = false;
   Brightness _brightness = Brightness.light;
 
   SkinManager._internal();
@@ -58,11 +59,15 @@ class SkinManager {
   }
 
   _loadConfig(BuildContext context) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    Brightness localBrightness = sp.getBool(_sharedPreferencesKey)
-        ? Brightness.dark
-        : Brightness.light;
-    setBrightness(context, localBrightness);
+    if (!_loaded) {
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      bool isDark = sp.getBool(_sharedPreferencesKey);
+      Brightness localBrightness = isDark != null && isDark
+          ? Brightness.dark
+          : Brightness.light;
+      setBrightness(context, localBrightness);
+      _loaded = true;
+    }
   }
 
   _saveConfig(Brightness brightness) async {
