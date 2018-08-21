@@ -40,7 +40,8 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      body: Container(
         color: Color(0xff17181a),
         child: Column(
           children: <Widget>[
@@ -50,8 +51,8 @@ class _PageState extends State<PageSplash> with SingleTickerProviderStateMixin {
               child: _buildLogoAndSlogan(context),
             )
           ],
-        )
-    );
+        ),
+      ),);
   }
 
   @override
