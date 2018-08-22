@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:zhihu_daily/widgets/circleImage.dart';
 import 'package:zhihu_daily/model/theme.dart';
+import 'package:zhihu_daily/model/usrInfo.dart';
+import 'package:zhihu_daily/constants/pages.dart';
+import 'package:zhihu_daily/manager/usrInfoManager.dart';
 
 typedef void ThemeChangedCallback(ThemeModel model);
 
-class HomeDrawer extends StatelessWidget {
+class HomeDrawer extends StatefulWidget {
   final int activatedThemeId;
   final List<ThemeModel> themeList;
   final ThemeChangedCallback themeChangedCallback;
@@ -13,22 +16,43 @@ class HomeDrawer extends StatelessWidget {
       {Key key}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return _DrawerState();
+  }
+}
+
+class _DrawerState extends State<HomeDrawer> {
+  UsrInfoManager usrInfoManager = UsrInfoManager();
+
+  @override
+  void initState() {
+    super.initState();
+    usrInfoManager.addLoginListener(onLoginStateChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    usrInfoManager.removeLoginListener(onLoginStateChanged);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Drawer(
       child: Column(children: <Widget>[
-        _buildHeader(context),
-        _buildHomeItem(context),
+        _buildHeader(),
+        _buildHomeItem(),
         Expanded(
           child: new ListView(
             padding: EdgeInsets.only(),
-            children: _buildDrawerList(context),
+            children: _buildDrawerList(),
           ),
         ),
       ]),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     final double statusBarHeight = MediaQuery
         .of(context)
         .padding
@@ -47,19 +71,35 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Widget _buildUserInfo() {
-    return new Row(
-      children: <Widget>[
-        new Container(
-          width: 32.0, height: 32.0,
-          margin: EdgeInsets.only(right: 14.0),
-          child: new CircleImage(new AssetImage('res/images/avatar.png')),
-        ),
-        new Text('请登录', style: new TextStyle(
-          fontSize: 16.0,
-          color: Colors.white,
-        ))
-      ],
-    );
+    ImageProvider avatar;
+    String usrName;
+    if (usrInfoManager.hasLogin()) {
+      UsrInfo usrInfo = usrInfoManager.usrInfo;
+      usrName = usrInfo.name;
+      if (usrInfo.avatar != null && usrInfo.avatar.length > 0) {
+        avatar = NetworkImage(usrInfo.avatar);
+      } else {
+        avatar = AssetImage('res/images/avatar.png');
+      }
+    } else {
+      usrName = '请登录';
+      avatar = AssetImage('res/images/avatar.png');
+    }
+    return GestureDetector(
+      onTap: _onTapUsrInfo,
+      child: new Row(
+        children: <Widget>[
+          new Container(
+            width: 32.0, height: 32.0,
+            margin: EdgeInsets.only(right: 14.0),
+            child: new CircleImage(avatar),
+          ),
+          new Text(usrName, style: new TextStyle(
+            fontSize: 16.0,
+            color: Colors.white,
+          ))
+        ],
+      ),);
   }
 
   Widget _buildMenu() {
@@ -77,7 +117,7 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _buildItemCollect() {
     return _buildMenuItem('我的收藏', Icons.star, () {
-
+      Navigator.pushNamed(context, Pages.COLLECTION);
     });
   }
 
@@ -107,17 +147,17 @@ class HomeDrawer extends StatelessWidget {
     ));
   }
 
-  List<Widget> _buildDrawerList(BuildContext context) {
-    return themeList.map((ThemeModel theme) {
+  List<Widget> _buildDrawerList() {
+    return widget.themeList.map((ThemeModel theme) {
       return _wrapPaddingAndTouch(
-          _buildThemeItem(theme), activatedThemeId == theme.id, () {
-        themeChangedCallback(theme);
+          _buildThemeItem(theme), widget.activatedThemeId == theme.id, () {
+        widget.themeChangedCallback(theme);
         Navigator.pop(context);
       });
     }).toList(growable: false);
   }
 
-  Widget _buildHomeItem(BuildContext context) {
+  Widget _buildHomeItem() {
     return _wrapPaddingAndTouch(
         Row(children: <Widget>[
           Icon(Icons.home, color: Colors.blue),
@@ -127,9 +167,9 @@ class HomeDrawer extends StatelessWidget {
                 '首页', style: TextStyle(color: Colors.blue, fontSize: 17.0)),
           ),
         ]),
-        activatedThemeId == 0,
+        widget.activatedThemeId == 0,
             () {
-          themeChangedCallback(null);
+          widget.themeChangedCallback(null);
           Navigator.pop(context);
         }
     );
@@ -156,5 +196,46 @@ class HomeDrawer extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 16.0),
       ),
     );
+  }
+
+  void _onTapUsrInfo() {
+    if (usrInfoManager.hasLogin()) {
+      _showLogoutDialog();
+    } else {
+      Navigator.pushNamed(context, Pages.LOGIN);
+    }
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('是否退出登录?', style: TextStyle(fontSize: 18.0)),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('取消'),
+              textColor: Colors.grey,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text('退出'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                usrInfoManager.logout();
+              },
+            ),
+          ],
+        );
+      },);
+  }
+
+  void onLoginStateChanged(LoginState state, UsrInfo usrInfo) {
+    if (state == LoginState.logout) {
+      setState(() {});
+    }
   }
 }
