@@ -11,6 +11,7 @@ dependencies:
   transparent_image: ^0.1.0
   flutter_webview_plugin: ^0.1.6
   shared_preferences: ^0.4.2
+  sqflite: any
 
 dev_dependencies:
   flutter_test:

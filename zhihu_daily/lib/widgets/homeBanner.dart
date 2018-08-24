@@ -75,7 +75,9 @@ class _BannerState extends State<HomeBanner> {
   Widget _buildItem(StoryModel story) {
     return GestureDetector(
       onTap: () {
-        widget.onTap != null && widget.onTap(story);
+        if (widget.onTap != null) {
+          widget.onTap(story);
+        }
       },
       child: Stack(
         fit: StackFit.expand,

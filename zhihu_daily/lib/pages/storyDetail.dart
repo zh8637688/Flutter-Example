@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:zhihu_daily/constants/urls.dart';
 import 'package:zhihu_daily/constants/pages.dart';
+import 'package:zhihu_daily/model/story.dart';
+import 'package:zhihu_daily/manager/collectionManager.dart';
 
 class PageStoryDetail extends StatefulWidget {
-  final int storyID;
+  final StoryModel story;
 
-  PageStoryDetail(this.storyID);
+  PageStoryDetail(this.story);
 
   PageStoryDetail.fromParams(Map<String, String> params)
-      : this(int.parse(params['storyID']));
+      : this(StoryModel.fromJson(json.decode(params['story'])));
 
   @override
   State<StatefulWidget> createState() {
@@ -23,19 +25,20 @@ class _PageState extends State<PageStoryDetail> {
   int commentCount;
   int longComments;
   int shortComments;
-  int starCount;
+  int favCount;
+  bool collected;
   String storyUrl;
-  int storyID;
 
   @override
   void initState() {
     super.initState();
     commentCount = 0;
-    starCount = 0;
-    storyID = widget.storyID;
-    storyUrl = Urls.NEWS_DETAIL_WEB + storyID.toString();
+    favCount = 0;
+    collected = false;
+    storyUrl = Urls.NEWS_DETAIL_WEB + widget.story.id.toString();
 
     _loadData();
+    _checkCollectState();
   }
 
   @override
@@ -53,9 +56,11 @@ class _PageState extends State<PageStoryDetail> {
       actions: <Widget>[
         _buildActionItem(Icons.share, _onPressShare),
         _buildActionItem(
+            collected ? Icons.star : Icons.star_border, _onPressStar),
+        _buildActionItem(
             Icons.comment, _onPressComment, text: commentCount.toString()),
         _buildActionItem(
-            Icons.thumb_up, _onPressThumb, text: starCount.toString()),
+            Icons.thumb_up, _onPressThumb, text: favCount.toString()),
       ],
     );
   }
@@ -81,10 +86,26 @@ class _PageState extends State<PageStoryDetail> {
 
   }
 
+  _onPressStar() async {
+    if(collected) {
+      if(await CollectionManager().delete(widget.story)) {
+        setState(() {
+          collected = false;
+        });
+      }
+    } else {
+      if (await CollectionManager().collect(widget.story)) {
+        setState(() {
+          collected = true;
+        });
+      }
+    }
+  }
+
   _onPressComment() {
     StringBuffer sb = StringBuffer(Pages.COMMENT);
     sb.write('?storyID=');
-    sb.write(storyID);
+    sb.write(widget.story.id);
     sb.write('&longComments=');
     sb.write(longComments);
     sb.write('&shortComments=');
@@ -97,7 +118,7 @@ class _PageState extends State<PageStoryDetail> {
   }
 
   _loadData() async {
-    String url = Urls.NEWS_EXTRA_INFO + storyID.toString();
+    String url = Urls.NEWS_EXTRA_INFO + widget.story.id.toString();
     Response response = await get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> result = json.decode(response.body);
@@ -105,8 +126,19 @@ class _PageState extends State<PageStoryDetail> {
         commentCount = result['comments'];
         longComments = result['long_comments'];
         shortComments = result['long_comments'];
-        starCount = result['popularity'];
+        favCount = result['popularity'];
       });
     }
+  }
+
+  _checkCollectState() {
+    CollectionManager().hasCollected(widget.story)
+        .then((hasCollected) {
+      if (hasCollected) {
+        setState(() {
+          collected = hasCollected;
+        });
+      }
+    });
   }
 }

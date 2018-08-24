@@ -17,8 +17,7 @@ class RouteModel {
       _params = Map();
       resoled[1].split('&').forEach((paramStr) {
         List<String> item = paramStr.split('=');
-        _params.putIfAbsent(
-            Uri.decodeComponent(item[0]), () => Uri.decodeComponent(item[1]));
+        _params.putIfAbsent(item[0], () => Uri.decodeComponent(item[1]));
       });
     }
   }

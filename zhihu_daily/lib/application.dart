@@ -4,6 +4,7 @@ import 'package:zhihu_daily/manager/usrInfoManager.dart';
 import 'package:zhihu_daily/manager/skinManager.dart';
 import 'package:zhihu_daily/route/routeGenerator.dart';
 import 'package:zhihu_daily/route/interceptors/loginInterceptor.dart';
+import 'package:zhihu_daily/manager/collectionManager.dart';
 
 class Application extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    onAppDestroy();
     super.dispose();
   }
 
@@ -45,6 +47,10 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
 
   void onAppPaused() {
 
+  }
+
+  void onAppDestroy() {
+    CollectionManager().destroy();
   }
 
   @override

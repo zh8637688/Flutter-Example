@@ -207,6 +207,6 @@ class _FragmentState extends State<HomeFragment> {
   }
 
   _openStoryDetailPage(StoryModel story) {
-    Navigator.of(context).pushNamed(Pages.STORY_DETAIL + '?storyID=' + story.id.toString());
+    Navigator.of(context).pushNamed(Pages.STORY_DETAIL + '?story=' + Uri.encodeComponent(json.encode(story)));
   }
 }
